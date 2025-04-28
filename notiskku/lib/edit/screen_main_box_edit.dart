@@ -108,7 +108,7 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                 )
               : Column(
                   children: [
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     Expanded(
                       child: ListView.builder(
                         itemCount: _noticeDocs!.length,
