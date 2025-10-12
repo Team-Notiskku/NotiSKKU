@@ -33,6 +33,10 @@ migrate_working_dir/
 .pub/
 /build/
 
+# 단, build/web 폴더는 포함
+!/build/web
+!/build/web/**
+
 # Symbolication related
 app.*.symbols
 
