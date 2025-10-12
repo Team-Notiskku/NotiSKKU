@@ -231,7 +231,6 @@ class ScreenMainNotice extends ConsumerWidget {
         '자기설계융합전공': 'https://ic.skku.edu/ic/index.do',
         '지능형소프트웨어학과': 'https://sw.skku.edu/sw/index.do',
         '컬쳐앤테크놀로지융합전공': 'https://ic.skku.edu/ic/index.do',
-        '건축학과(건축학계열)': 'https://arch.skku.edu/arch/index.do',
         '나노공학과': 'https://saint.skku.edu/saint/index.do',
         '바이오메카트로닉스학과': 'https://bme.skku.edu/bme/index.do',
         '융합생명공학과': 'https://biotech.skku.edu/biotech/index.do',
