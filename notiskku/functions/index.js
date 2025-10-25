@@ -71,7 +71,7 @@ exports.scheduledPushNotification = onSchedule(
 
           const message = {
             notification: {
-              title: `${mappedName} 관련 공지사항`,
+              title: `'${mappedName}' 관련 공지가 새로 업데이트 되었어요!`,
               body: title,
             },
             data: {
