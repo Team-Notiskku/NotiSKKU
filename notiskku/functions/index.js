@@ -22,7 +22,7 @@ exports.scheduledPushNotification = onSchedule(
 
       const notices = await db
         .collection("notices")
-        .where("updated_at", ">=", thirtyMinutesAgo)
+        .where("created_at", ">=", thirtyMinutesAgo)
         .get();
 
       if (notices.empty) {
