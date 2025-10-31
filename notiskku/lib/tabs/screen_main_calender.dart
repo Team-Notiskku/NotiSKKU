@@ -557,9 +557,9 @@ class _EventBottomSheetState extends State<_EventBottomSheet> {
                       itemCount: widget.events.length,
                       separatorBuilder:
                           (_, __) => Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: Divider(
-                              color: scheme.surface,
+                              color: scheme.outline.withAlpha(200),
                               thickness: 0.5,
                             ),
                           ),
