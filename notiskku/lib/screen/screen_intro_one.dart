@@ -7,42 +7,28 @@ class ScreenIntroOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 35.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 65.h),
-          Text(
-            '성균관대 공지사항 어플',
-            style: TextStyle(
-              fontSize: 17.sp,
-              fontFamily: 'GmarketSans',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text('성균관대 공지사항 어플', style: textTheme.headlineMedium),
           SizedBox(height: 2.h),
           Text.rich(
             TextSpan(
               children: [
                 TextSpan(
                   text: 'NotiSKKU',
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontFamily: 'GmarketSans',
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xff0b5b42),
+                  style: textTheme.headlineLarge?.copyWith(
+                    color: scheme.primary,
                   ),
                 ),
-                TextSpan(
-                  text: '를 소개합니다!',
-                  style: TextStyle(
-                    fontSize: 17.sp,
-                    fontFamily: 'GmarketSans',
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
+                TextSpan(text: '를 소개합니다!', style: textTheme.headlineMedium),
               ],
             ),
           ),

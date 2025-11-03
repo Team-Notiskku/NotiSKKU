@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notiskku/models/keyword.dart';
 import 'package:notiskku/data/keyword_data.dart';
 import 'package:notiskku/providers/user/user_provider.dart';
 
@@ -13,15 +12,21 @@ class GridKeywords extends ConsumerWidget {
     final userState = ref.watch(userProvider);
     final userNotifier = ref.read(userProvider.notifier);
 
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Column(
       children: [
         SizedBox(height: 10.h),
 
-        // '선택하지 않음' 버튼 - 로컬 위젯으로 포함
+        // '선택하지 않음' 버튼 (기존과 동일)
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w),
-          child: _DoNotSelectButton(
+          child: _PillSelectButton(
+            label: '선택하지 않음',
             isSelected: userState.doNotSelectKeywords,
+            width: 282.w,
+            height: 36.h,
             onPressed: () => userNotifier.toggleDoNotSelectKeywords(),
           ),
         ),
@@ -40,43 +45,21 @@ class GridKeywords extends ConsumerWidget {
             itemCount: keywords.length,
             itemBuilder: (context, index) {
               final keyword = keywords[index].keyword;
-              Keyword matchedKeyword = keywords.firstWhere(
+              final matchedKeyword = keywords.firstWhere(
                 (k) => k.keyword == keyword,
               );
               final isSelected = userState.selectedKeywords.contains(
                 matchedKeyword,
               );
-              return GestureDetector(
-                onTap: () => userNotifier.toggleKeyword(matchedKeyword),
-                child: Container(
-                  width: 86.w,
-                  height: 37.h,
-                  padding: EdgeInsets.symmetric(vertical: 6.h), // 내부 패딩 조정
-                  decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? const Color(0xB20B5B42)
-                            : const Color(0x99D9D9D9),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Center(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown, // 글자가 너무 크면 자동으로 축소
-                      child: Text(
-                        keyword,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 19.sp,
-                          color:
-                              isSelected
-                                  ? Colors.white
-                                  : const Color(0xFF979797),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+
+              return _PillSelectButton(
+                label: keyword,
+                isSelected: isSelected,
+                width: 86.w,
+                height: 37.h,
+                // _DoNotSelectButton과 동일한 스타일/색 로직이 자동 적용됨
+                textStyle: textTheme.headlineMedium?.copyWith(fontSize: 18.sp),
+                onPressed: () => userNotifier.toggleKeyword(matchedKeyword),
               );
             },
           ),
@@ -86,44 +69,67 @@ class GridKeywords extends ConsumerWidget {
   }
 }
 
-// GridKeywords 안에만 쓰는 private 위젯으로 정의
-class _DoNotSelectButton extends StatelessWidget {
+/// 공통 Pill 버튼: `_DoNotSelectButton`과 동일 스타일을 재사용
+class _PillSelectButton extends StatelessWidget {
+  final String label;
   final bool isSelected;
   final VoidCallback onPressed;
+  final double width;
+  final double height;
+  final TextStyle? textStyle;
 
-  const _DoNotSelectButton({required this.isSelected, required this.onPressed});
+  const _PillSelectButton({
+    required this.label,
+    required this.isSelected,
+    required this.onPressed,
+    required this.width,
+    required this.height,
+    this.textStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final (bgColor, fgColor) = _pillColors(theme, isSelected);
+
     return SizedBox(
-      width: 282.w,
-      height: 36.h,
-      child: ElevatedButton(
+      width: width,
+      height: height,
+      child: TextButton(
         onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          backgroundColor:
-              isSelected ? const Color(0xB20B5B42) : const Color(0x99D9D9D9),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(bgColor),
+          foregroundColor: WidgetStateProperty.all(fgColor),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
           ),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 8.w),
+          ),
+          minimumSize: WidgetStateProperty.all(Size(width, height)),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.h), // 버튼 내부 패딩 조절
-          child: FittedBox(
-            fit: BoxFit.scaleDown, // 글자가 너무 크면 자동으로 축소
-            child: Text(
-              '선택하지 않음',
-              style: TextStyle(
-                fontSize: 19.sp,
-                color: isSelected ? Colors.white : const Color(0xFF979797),
-                fontWeight: FontWeight.w700,
-              ),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: (textStyle ?? theme.textTheme.headlineMedium)?.copyWith(
+              fontSize: 18.sp,
+              color: fgColor,
             ),
           ),
         ),
       ),
     );
   }
+}
+
+(Color, Color) _pillColors(ThemeData theme, bool isSelected) {
+  final scheme = theme.colorScheme;
+  final bgColor =
+      isSelected
+          ? scheme.primary.withOpacity(0.7)
+          : scheme.secondary.withOpacity(0.6);
+  final fgColor = isSelected ? scheme.surface : scheme.outline;
+  return (bgColor, fgColor);
 }

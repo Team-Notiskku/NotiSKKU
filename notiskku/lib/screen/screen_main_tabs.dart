@@ -14,6 +14,8 @@ import 'package:notiskku/tabs/screen_main_others.dart';
 import 'package:notiskku/screen/screen_intro_alarm.dart';
 import 'package:notiskku/widget/dialog/dialog_set_alarm_info.dart';
 
+import 'package:notiskku/services/preferences_app.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -99,9 +101,7 @@ class _ScreenMainTabsState extends ConsumerState<ScreenMainTabs> {
               Navigator.of(ctx).pop();
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const ScreenIntroAlarm(isFromOthers: true),
-                ),
+                MaterialPageRoute(builder: (_) => const ScreenIntroAlarm()),
               );
             },
             onTapOk: () => Navigator.of(ctx).pop(),
@@ -111,6 +111,8 @@ class _ScreenMainTabsState extends ConsumerState<ScreenMainTabs> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final currentIndex = ref.watch(tabIndexProvider);
 
     return Scaffold(
@@ -118,11 +120,10 @@ class _ScreenMainTabsState extends ConsumerState<ScreenMainTabs> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         elevation: 0,
-        backgroundColor: Colors.white,
         items: _navItems,
         currentIndex: currentIndex,
-        selectedItemColor: const Color(0xFF0B5B42),
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: scheme.primary,
+        unselectedItemColor: scheme.outline,
         selectedFontSize: 14.sp,
         unselectedFontSize: 14.sp,
         onTap: _onItemTapped,

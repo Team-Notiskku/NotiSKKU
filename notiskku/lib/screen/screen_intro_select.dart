@@ -18,6 +18,9 @@ class ScreenIntroSelect extends ConsumerWidget {
     final settingsType = ref.watch(settingsProvider);
     final userState = ref.watch(userProvider);
 
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     // '설정완료' 버튼 활성화 조건: 학과 1개 이상 + 키워드 1개 이상 선택
     final isButtonEnabled =
         userState.selectedMajors.isNotEmpty &&
@@ -25,7 +28,6 @@ class ScreenIntroSelect extends ConsumerWidget {
             userState.selectedKeywords.isNotEmpty);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,12 +40,6 @@ class ScreenIntroSelect extends ConsumerWidget {
                 child: Text(
                   '관심 학과와 키워드를 선택해주세요😀\n(학과는 최대 2개까지 가능)',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.black.withAlpha(229),
-                    fontSize: 14.sp,
-                    fontFamily: 'GmarketSans',
-                    fontWeight: FontWeight.w500,
-                  ),
                 ),
               ),
             ),
@@ -69,7 +65,9 @@ class ScreenIntroSelect extends ConsumerWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ScreenIntroAlarm(),
+                              builder:
+                                  (context) =>
+                                      const ScreenIntroAlarm(isFromIntro: true),
                             ),
                           );
                         }

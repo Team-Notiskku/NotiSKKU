@@ -11,6 +11,10 @@ class BarNotices extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final selectedNotice = ref.watch(
       barNoticesProvider,
     ); // enum Notices {common, dept, major}
@@ -25,7 +29,7 @@ class BarNotices extends ConsumerWidget {
             // 구분선
             width: 2.w,
             height: 20.h,
-            color: Colors.grey[600],
+            color: scheme.outline,
           );
         } else {
           Notices currentNotice = Notices.values[index ~/ 2];
@@ -46,24 +50,22 @@ class BarNotices extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color:
                         selectedNotice == currentNotice
-                            ? const Color(0xFFE8F5E9)
-                            : Colors.white,
+                            ? scheme.primary.withAlpha(35)
+                            : null,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
                     child: Text(
                       _getNoticeLabel(currentNotice),
-                      style: TextStyle(
+                      style: textTheme.headlineSmall?.copyWith(
                         color:
                             selectedNotice == currentNotice
-                                ? const Color(0xFF0B5B42)
-                                : Colors.grey,
+                                ? scheme.primary
+                                : scheme.outline,
                         fontWeight:
                             selectedNotice == currentNotice
-                                ? FontWeight.w900
+                                ? FontWeight.w800
                                 : FontWeight.w400,
-                        fontSize: 14.sp,
-                        // fontFamily: 'Inter',
                       ),
                     ),
                   ),

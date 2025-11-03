@@ -9,14 +9,21 @@ class ListStarredNotices extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final userState = ref.watch(userProvider);
     final hashedStarredNotices = userState.starredNotices;
 
     if (hashedStarredNotices.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          '저장된 공지가 없습니다',
-          style: TextStyle(fontSize: 18, color: Colors.grey),
+          '저장된 공지가 없습니다.',
+          style: textTheme.bodyMedium?.copyWith(
+            color: scheme.outline,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       );
     }

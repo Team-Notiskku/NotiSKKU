@@ -14,6 +14,10 @@ class ListRecentSearch extends ConsumerStatefulWidget {
 class ListRecentSearchState extends ConsumerState<ListRecentSearch> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final searchedTexts = ref.watch(userProvider).recentSearchedText;
 
     return Flexible(
@@ -31,7 +35,7 @@ class ListRecentSearchState extends ConsumerState<ListRecentSearch> {
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               margin: EdgeInsets.symmetric(vertical: 4.h),
               decoration: BoxDecoration(
-                color: const Color(0x99D9D9D9),
+                color: scheme.secondary.withOpacity(0.6),
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Row(
@@ -39,7 +43,7 @@ class ListRecentSearchState extends ConsumerState<ListRecentSearch> {
                 children: [
                   Text(
                     searchedTexts[reversedIndex],
-                    style: TextStyle(color: Colors.black, fontSize: 15.sp),
+                    style: textTheme.bodyMedium?.copyWith(fontSize: 15.sp),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -47,7 +51,7 @@ class ListRecentSearchState extends ConsumerState<ListRecentSearch> {
                           .read(userProvider.notifier)
                           .deleteRecentSearch(searchedTexts[reversedIndex]);
                     },
-                    child: Icon(Icons.close, color: Colors.black, size: 20.w),
+                    child: Icon(Icons.close, size: 18.w),
                   ),
                 ],
               ),

@@ -13,15 +13,13 @@ import 'package:notiskku/services/preferences_app.dart';
 class ScreenIntroLoading extends ConsumerStatefulWidget {
   const ScreenIntroLoading({
     super.key,
-    this.isFromOthers = false,
-    this.isFromAlarm = false, // 추가
+    this.isFromAlarm = false,
+    this.isFromIntro = false, // 추가
   });
 
   /// 기존 로직 유지
-  final bool isFromOthers;
-
-  /// 알림 설정 화면에서 진입했는지 여부 (팝업 비표시)
-  final bool isFromAlarm; // 추가
+  final bool isFromIntro;
+  final bool isFromAlarm;
 
   @override
   ConsumerState<ScreenIntroLoading> createState() => _ScreenIntroLoadingState();
@@ -48,9 +46,9 @@ class _ScreenIntroLoadingState extends ConsumerState<ScreenIntroLoading> {
             .where((k) => k.receiveNotification == true)
             .toList();
 
-    debugPrint('✅ [ScreenIntroLoading] isFromOthers: ${widget.isFromOthers}');
+    debugPrint('✅ [ScreenIntroLoading] isFromAlarm: ${widget.isFromAlarm}');
     debugPrint(
-      '✅ [ScreenIntroLoading] isFromAlarm: ${widget.isFromAlarm}',
+      '✅ [ScreenIntroLoading] isFromIntro: ${widget.isFromIntro}',
     ); // ✅ 로그 추가
     debugPrint(
       '✅ [ScreenIntroLoading] majors (all): ${user.selectedMajors.map((m) => m.major).join(", ")}',
@@ -71,34 +69,31 @@ class _ScreenIntroLoadingState extends ConsumerState<ScreenIntroLoading> {
         keywords: user.selectedKeywords,
       );
 
-      await AppPreferences.setFirstLaunch();
       if (!mounted) return;
 
       _showSnack('알림 구독이 완료되었습니다.');
 
-      // 분기 정리: isFromAlarm > isFromOthers > 온보딩
       final Widget next =
-          widget.isFromAlarm
-              ? const ScreenMainTabs(showPostLoadNotice: false)
-              : (widget.isFromOthers
-                  ? const ScreenMainTabs(showPostLoadNotice: true)
-                  : const ScreenIntroReady());
+          widget.isFromIntro
+              ? const ScreenIntroReady()
+              : (widget.isFromAlarm
+                  ? const ScreenMainTabs(showPostLoadNotice: false)
+                  : const ScreenMainTabs(showPostLoadNotice: true));
 
       Navigator.of(
         context,
       ).pushReplacement(MaterialPageRoute(builder: (_) => next));
     } catch (e) {
-      await AppPreferences.setFirstLaunch();
       if (!mounted) return;
 
       _showSnack('알림 구독에 실패했습니다: $e', isError: true);
 
       final Widget next =
-          widget.isFromAlarm
-              ? const ScreenMainTabs(showPostLoadNotice: false) // 실패 케이스도 동일 분기
-              : (widget.isFromOthers
-                  ? const ScreenMainTabs(showPostLoadNotice: true)
-                  : const ScreenIntroReady());
+          widget.isFromIntro
+              ? const ScreenIntroReady()
+              : (widget.isFromAlarm
+                  ? const ScreenMainTabs(showPostLoadNotice: false)
+                  : const ScreenMainTabs(showPostLoadNotice: true));
 
       Navigator.of(
         context,
@@ -119,58 +114,63 @@ class _ScreenIntroLoadingState extends ConsumerState<ScreenIntroLoading> {
 
   @override
   Widget build(BuildContext context) {
-    const spinnerColor = Color(0xFF979797);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/fourth_fix.png',
-                height: 170.h,
-                width: 170.h,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(height: 23.h),
-              Text(
-                '설정을 완료하는 중입니다!',
-                style: TextStyle(
-                  color: const Color(0xFF0B5B42),
-                  fontSize: 20.sp,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/loadinglogo.png',
+                  height: 170.h,
+                  width: 170.h,
+                  fit: BoxFit.contain,
                 ),
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '잠시만 기다려 주세요...',
-                    style: TextStyle(
-                      color: spinnerColor,
-                      fontSize: 18.sp,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w500,
+                SizedBox(height: 23.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '설정을 완료하는 중이에요.',
+                      style: TextStyle(
+                        color: scheme.primary,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  SizedBox(
-                    height: 16.w,
-                    width: 16.w,
-                    child: const CircularProgressIndicator(
-                      strokeWidth: 3.0,
-                      valueColor: AlwaysStoppedAnimation<Color>(spinnerColor),
+                    SizedBox(width: 10.w),
+                    SizedBox(
+                      height: 16.w,
+                      width: 16.w,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3.0,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          scheme.primary,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  '조금만 더 기다려주세요 :)',
+                  style: TextStyle(
+                    color: scheme.outline,
+                    fontSize: 18.sp,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(height: 5.h),
+              ],
+            ),
           ),
         ),
       ),

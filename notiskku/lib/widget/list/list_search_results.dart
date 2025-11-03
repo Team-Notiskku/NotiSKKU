@@ -79,12 +79,18 @@ class _ListSearchResultsState extends ConsumerState<ListSearchResults> {
               return data;
             })
             .toList();
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
 
     if (results.isEmpty) {
       return Center(
         child: Text(
           '검색된 공지가 없습니다.🥲',
-          style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+          style: textTheme.bodyMedium?.copyWith(
+            color: scheme.outline,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       );
     }

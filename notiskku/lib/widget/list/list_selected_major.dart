@@ -13,6 +13,10 @@ class ListSelectedMajor extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final selectedMajors = ref.watch(userProvider).selectedMajors;
 
     // 최신 선택이 아래로 쌓이도록 역순
@@ -29,7 +33,7 @@ class ListSelectedMajor extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 margin: EdgeInsets.symmetric(vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD2DEDA),
+                  color: scheme.primary.withAlpha(45), // 연한 primary 색상
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Row(
@@ -38,10 +42,9 @@ class ListSelectedMajor extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         majorName,
-                        style: TextStyle(
-                          color: const Color(0xFF0B5B42),
+                        style: textTheme.headlineMedium?.copyWith(
+                          color: scheme.primary,
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -53,7 +56,7 @@ class ListSelectedMajor extends ConsumerWidget {
                               .toggleMajor(majorObj),
                       child: Icon(
                         Icons.close,
-                        color: const Color(0xFF0B5B42),
+                        color: scheme.primary,
                         size: 18.w,
                       ),
                     ),

@@ -15,6 +15,10 @@ class ListMajor extends ConsumerWidget {
     final userState = ref.watch(userProvider);
     final userNotifier = ref.read(userProvider.notifier);
 
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final filteredAndSorted =
         majors
             .where(
@@ -24,21 +28,6 @@ class ListMajor extends ConsumerWidget {
             )
             .toList()
           ..sort((a, b) => a.major.compareTo(b.major));
-
-    // final selected =
-    //     filteredAndSorted
-    //         .where(
-    //           (m) => userState.selectedMajors.any((s) => s.major == m.major),
-    //         )
-    //         .toList();
-    // final unselected =
-    //     filteredAndSorted
-    //         .where(
-    //           (m) => userState.selectedMajors.every((s) => s.major != m.major),
-    //         )
-    //         .toList();
-
-    // final displayMajors = [...selected, ...unselected];
 
     return Column(
       children: [
@@ -82,9 +71,9 @@ class ListMajor extends ConsumerWidget {
                     horizontal: 10.w,
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 10.w),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: Color(0xFFD9D9D9), width: 1.5),
+                      bottom: BorderSide(color: scheme.secondary, width: 1.5),
                     ),
                   ),
                   child: Row(
@@ -92,22 +81,12 @@ class ListMajor extends ConsumerWidget {
                     children: [
                       Text(
                         major,
-                        style: TextStyle(
-                          fontSize: 19.sp,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.w400,
-                          color:
-                              isSelected
-                                  ? const Color(0xFF0B5B42)
-                                  : const Color(0xFF979797),
+                        style: textTheme.headlineMedium?.copyWith(
+                          color: isSelected ? scheme.primary : scheme.outline,
                         ),
                       ),
                       if (isSelected)
-                        Icon(
-                          Icons.check,
-                          color: const Color(0xFF0B5B42),
-                          size: 20.w,
-                        ),
+                        Icon(Icons.check, color: scheme.primary, size: 20.w),
                     ],
                   ),
                 ),

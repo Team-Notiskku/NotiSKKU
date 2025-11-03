@@ -37,6 +37,9 @@ class FeedbackPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
     final String guideText = applyWordBreakFix(
       '문의 및 건의는 아래의 카카오톡 오픈채팅을 이용해 주세요.\n답변은 2~3일 정도 소요될 수 있습니다.',
     );
@@ -49,18 +52,21 @@ class FeedbackPopup extends StatelessWidget {
           Text(
             guideText,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: textTheme.bodyMedium,
           ),
           const SizedBox(height: 10),
           GestureDetector(
             onTap: _launchChat,
             child: Container(
               padding: const EdgeInsets.all(10),
-              color: Colors.grey[300],
-              child: const Text(
+              color: scheme.secondary.withAlpha(150),
+              child: Text(
                 'https://open.kakao.com/o/gKYMY3Wg',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                style: textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: scheme.outline,
+                ),
               ),
             ),
           ),

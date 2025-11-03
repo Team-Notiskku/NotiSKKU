@@ -6,6 +6,9 @@ class ScreenIntroTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 35.w),
       child: Column(
@@ -14,11 +17,7 @@ class ScreenIntroTwo extends StatelessWidget {
           SizedBox(height: 65.h),
           RichText(
             text: TextSpan(
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontFamily: 'GmarketSans',
-                color: Colors.black,
-              ),
+              style: textTheme.headlineMedium?.copyWith(fontSize: 24.sp),
               children: [
                 TextSpan(text: '공지사항도 내 스타일로! '),
                 WidgetSpan(
@@ -35,11 +34,7 @@ class ScreenIntroTwo extends StatelessWidget {
           SizedBox(height: 2.h),
           Text(
             '원하는 소식만 확인할 수 있어요.',
-            style: TextStyle(
-              fontFamily: 'GmarketSans',
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w500,
-            ),
+            style: textTheme.headlineSmall?.copyWith(fontSize: 17.sp),
           ),
           SizedBox(height: 50.h),
           Center(

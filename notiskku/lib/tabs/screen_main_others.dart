@@ -38,27 +38,22 @@ class ScreenMainOthers extends StatelessWidget {
   Widget build(BuildContext context) {
     // final LaunchUrlService launchService =
     //     LaunchUrlService(); // LaunchUrlService 객체 생성
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo_fix.png', width: 40.w),
-        ),
-        title: Text(
-          '더보기',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+          child: Image.asset(
+            'assets/images/greenlogo_fix.png',
+            width: 40.w,
+            color: scheme.primary,
           ),
         ),
+        title: Text('더보기'),
         centerTitle: true, // 타이틀 중앙 정렬
       ),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
@@ -66,19 +61,17 @@ class ScreenMainOthers extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               children: [
                 // 사용자 설정 / 구독 설정 섹션
-                _buildSectionDivider(),
-                _buildSectionTitle('사용자 설정 / 구독 설정'),
-                _buildListItem(context, '  시스템 알림 설정', openSettings: true),
+                _buildSectionDivider(context),
+                _buildSectionTitle('사용자 설정 / 구독 설정', context),
+                _buildListItem(context, '시스템 알림 설정', openSettings: true),
                 _buildListItem(
                   context,
-                  '  학과 및 키워드 알림 설정',
+                  '학과 및 키워드 알림 설정',
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (context) =>
-                                const ScreenIntroAlarm(isFromOthers: true),
+                        builder: (context) => const ScreenIntroAlarm(),
                       ),
                     );
                   },
@@ -86,7 +79,7 @@ class ScreenMainOthers extends StatelessWidget {
                 // 기존 '학과 및 키워드 편집'을 두 항목으로 분리
                 _buildListItem(
                   context,
-                  '  학과 편집',
+                  '학과 편집',
                   onTap: () {
                     // 학과 편집 화면으로 이동
                     Navigator.push(
@@ -99,7 +92,7 @@ class ScreenMainOthers extends StatelessWidget {
                 ),
                 _buildListItem(
                   context,
-                  '  키워드 편집',
+                  '키워드 편집',
                   onTap: () {
                     Navigator.push(
                       context,
@@ -111,22 +104,18 @@ class ScreenMainOthers extends StatelessWidget {
                 ),
 
                 // 피드백 섹션
-                _buildSectionDivider(),
-                _buildSectionTitle('피드백'),
-                _buildListItem(context, '  FAQ', showFAQPopup: true),
-                _buildListItem(context, '  문의 / 건의', showInquiryPopup: true),
-                _buildListItem(context, '  버전 및 공지', showVersionPopup: true),
+                _buildSectionDivider(context),
+                _buildSectionTitle('피드백', context),
+                _buildListItem(context, 'FAQ', showFAQPopup: true),
+                _buildListItem(context, '문의 / 건의', showInquiryPopup: true),
+                _buildListItem(context, '버전 및 공지', showVersionPopup: true),
 
                 // 정보 섹션
-                _buildSectionDivider(),
-                _buildSectionTitle('정보'),
-                _buildListItem(context, '  개인정보처리방침', showPrivacyPopup: true),
-                _buildListItem(context, '  이용 약관', showTermsPopup: true),
-                _buildListItem(
-                  context,
-                  '  서비스 소개',
-                  showServiceIntroPopup: true,
-                ),
+                _buildSectionDivider(context),
+                _buildSectionTitle('정보', context),
+                _buildListItem(context, '개인정보처리방침', showPrivacyPopup: true),
+                _buildListItem(context, '이용 약관', showTermsPopup: true),
+                _buildListItem(context, '서비스 소개', showServiceIntroPopup: true),
               ],
             ),
           ),
@@ -135,24 +124,30 @@ class ScreenMainOthers extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionDivider() {
+  Widget _buildSectionDivider(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Divider(
-      color: Color(0xFF0B5B42), // 구분선 색상 변경
+      color: scheme.outline,
       thickness: 1,
       indent: 16,
       endIndent: 16,
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 8.0),
       child: Text(
         title,
-        style: TextStyle(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.bold,
-          color: Colors.grey[600],
+        style: textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w700,
+          color: scheme.outline,
         ),
       ),
     );
@@ -170,12 +165,23 @@ class ScreenMainOthers extends StatelessWidget {
     bool openSettings = false,
     VoidCallback? onTap,
   }) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 19.sp, color: Colors.black),
+      title: Padding(
+        padding: const EdgeInsets.only(left: 4.0),
+        child: Text(
+          title,
+          style: textTheme.headlineMedium?.copyWith(fontSize: 16.sp),
+        ),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: scheme.onPrimary,
+        size: 18.w,
+      ),
       onTap: () {
         // 우선 onTap 콜백이 있으면 우선 실행 후 return
         if (onTap != null) {

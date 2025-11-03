@@ -28,33 +28,38 @@ class DialogLimitMajor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final String fixedInstruction = applyWordBreakFix(
       '전공은 최대 두 개까지 선택할 수 있습니다.',
     );
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-      backgroundColor: Colors.white,
-      title: Text(
-        '⚠️ 전공 선택 제한',
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-          color: const Color(0xFF0B5B42),
-        ),
-      ),
+      title: Text('⚠️ 전공 선택 제한', style: textTheme.headlineMedium),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Text('전공은 최대 두 개까지 선택할 수 있습니다.', style: TextStyle(fontSize: 14.sp)),
-          Text(fixedInstruction, style: TextStyle(fontSize: 12.sp)),
-          SizedBox(height: 10.h),
+          Text(
+            fixedInstruction,
+            style: textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          SizedBox(height: 20.h),
           Text(
             "선택한 전공:",
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w800),
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: scheme.primary,
+            ),
           ),
-          Text(selectedMajors.join('\n'), style: TextStyle(fontSize: 13.sp)),
+          SizedBox(height: 5.h),
+          Text(
+            selectedMajors.join(', '),
+            style: textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w700),
+          ),
         ],
       ),
       actions: [
@@ -62,7 +67,11 @@ class DialogLimitMajor extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
             '확인',
-            style: TextStyle(fontSize: 16.sp, color: const Color(0xFF0B5B42)),
+            style: textTheme.headlineMedium?.copyWith(
+              color: scheme.primary,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
       ],

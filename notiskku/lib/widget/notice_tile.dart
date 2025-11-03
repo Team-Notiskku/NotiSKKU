@@ -23,6 +23,10 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final hash = widget.notice['hash'] ?? '';
     final title = widget.notice['title'] ?? '';
     final date = widget.notice['date'] ?? '';
@@ -42,14 +46,45 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
                 tempStarredNotices.contains(hash));
 
     final bool isMainHome = (currentTab == MAIN_HOME_TAB_INDEX);
+    // 한글 줄바꿈 개선 함수
+    String applyWordBreakFix(String text) {
+      final RegExp emoji = RegExp(
+        r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])',
+      );
+      String fullText = '';
+      List<String> words = text.split(' ');
+      for (var i = 0; i < words.length; i++) {
+        fullText +=
+            emoji.hasMatch(words[i])
+                ? words[i]
+                : words[i].replaceAllMapped(
+                  RegExp(r'(\S)(?=\S)'),
+                  (m) => '${m[1]}\u200D',
+                );
+        if (i < words.length - 1) fullText += ' ';
+      }
+      return fullText;
+    }
 
     return Column(
       children: [
         ListTile(
-          title: Text(title, style: TextStyle(fontSize: 15.sp)),
-          subtitle: Text(
-            views == 'null' ? '$date | 조회수: -' : '$date | 조회수: $views',
-            style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+          title: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              applyWordBreakFix(title),
+              style: TextStyle(height: 1.4, fontWeight: FontWeight.w700),
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              views == 'null' ? '$date | 조회수: -' : '$date | 조회수: $views',
+              style: textTheme.labelSmall?.copyWith(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
           trailing: GestureDetector(
             onTap: () async {
@@ -93,6 +128,7 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
                   : 'assets/images/emptystar_fix.png',
               width: 26.w,
               height: 26.h,
+              color: scheme.primary,
             ),
           ),
           onTap: () => launchUrlService.launchURL(link),

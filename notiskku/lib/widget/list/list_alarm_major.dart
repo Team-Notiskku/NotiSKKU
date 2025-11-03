@@ -11,6 +11,9 @@ class ListAlarmMajor extends ConsumerWidget {
     final userState = ref.watch(userProvider);
     final userNotifier = ref.read(userProvider.notifier);
 
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     final filteredMajors = userState.selectedMajors;
 
     return Column(
@@ -19,42 +22,90 @@ class ListAlarmMajor extends ConsumerWidget {
           filteredMajors.map((major) {
             final isSelected = major.receiveNotification;
 
-            return GestureDetector(
-              onTap: () => userNotifier.toggleMajorAlarm(major),
-              child: FractionallySizedBox(
-                widthFactor: 0.85, // 버튼 너비 동일 유지
-                child: Container(
+            return FractionallySizedBox(
+              widthFactor: 0.85, // 버튼 너비 동일 유지
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 13.h),
+                child: _PillSelectButton(
+                  label: major.major,
+                  isSelected: isSelected,
                   width: 294.w,
                   height: 36.h,
-                  margin: EdgeInsets.only(bottom: 13.h),
-                  padding: EdgeInsets.symmetric(vertical: 7.h),
-                  decoration: BoxDecoration(
-                    color:
-                        isSelected
-                            ? const Color(0xB20B5B42)
-                            : const Color(0x99D9D9D9),
-                    borderRadius: BorderRadius.circular(20.r),
+                  textStyle: textTheme.headlineMedium?.copyWith(
+                    fontSize: 18.sp,
                   ),
-                  child: Center(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown, // 글자가 너무 크면 자동으로 축소
-                      child: Text(
-                        major.major,
-                        style: TextStyle(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              isSelected
-                                  ? Colors.white
-                                  : const Color(0xFF979797),
-                        ),
-                      ),
-                    ),
-                  ),
+                  onPressed: () => userNotifier.toggleMajorAlarm(major),
                 ),
               ),
             );
           }).toList(),
     );
   }
+}
+
+/// ====== GridKeywords와 동일 스타일 재사용 ======
+class _PillSelectButton extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onPressed;
+  final double width;
+  final double height;
+  final TextStyle? textStyle;
+
+  const _PillSelectButton({
+    required this.label,
+    required this.isSelected,
+    required this.onPressed,
+    required this.width,
+    required this.height,
+    this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final (bgColor, fgColor) = _pillColors(theme, isSelected);
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: TextButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(bgColor),
+          foregroundColor: WidgetStateProperty.all(fgColor),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+          ),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+          ),
+          minimumSize: WidgetStateProperty.all(Size(width, height)),
+          alignment: Alignment.center,
+        ),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: (textStyle ?? theme.textTheme.headlineMedium)?.copyWith(
+              fontSize: 18.sp,
+              color: fgColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+(Color, Color) _pillColors(ThemeData theme, bool isSelected) {
+  final scheme = theme.colorScheme;
+  final bgColor =
+      isSelected
+          ? scheme.primary.withOpacity(0.7)
+          : scheme.secondary.withOpacity(0.6);
+  final fgColor = isSelected ? scheme.surface : scheme.outline;
+  return (bgColor, fgColor);
 }

@@ -58,6 +58,10 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final starredHashes = ref.watch(userProvider).starredNotices;
     final bool isAllSelected =
         _selectedHashes.length == starredHashes.length &&
@@ -65,9 +69,6 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Center(
@@ -76,20 +77,12 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: scheme.error,
               ),
             ),
           ),
         ),
-        title: Text(
-          '공지 편집',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
+        title: Text('공지 편집'),
         actions: [
           GestureDetector(
             onTap: () {
@@ -110,25 +103,24 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color:
-                      isAllSelected
-                          ? const Color(0xFF0B5B42)
-                          : const Color(0xFF979797),
+                  color: isAllSelected ? scheme.primary : scheme.outline,
                 ),
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       body:
           _noticeDocs == null
               ? const Center(child: CircularProgressIndicator())
               : _noticeDocs!.isEmpty
               ? Center(
                 child: Text(
-                  '저장된 공지가 없습니다',
-                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                  '저장된 공지가 없습니다.',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: scheme.outline,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               )
               : Column(
@@ -160,16 +152,13 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                               },
                               title: Text(
                                 title,
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: Colors.black,
-                                ),
+                                style: TextStyle(fontSize: 15.sp),
                               ),
                               subtitle: Text(
                                 '$date | 조회수: $views',
                                 style: TextStyle(
                                   fontSize: 14.sp,
-                                  color: Colors.grey,
+                                  color: scheme.outline,
                                 ),
                               ),
                               trailing: Icon(
@@ -178,13 +167,13 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                     : Icons.radio_button_unchecked,
                                 color:
                                     isSelected
-                                        ? const Color(0xFF0B5B42)
-                                        : Colors.grey,
+                                        ? scheme.primary
+                                        : scheme.outline,
                                 size: 26.sp,
                               ),
                             ),
                             Divider(
-                              color: Colors.grey,
+                              color: scheme.outline,
                               thickness: 1.h,
                               indent: 16.w,
                               endIndent: 16.w,
@@ -213,8 +202,8 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                   Navigator.pop(context);
                                 },
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xFFE64343),
+                          foregroundColor: scheme.surface,
+                          backgroundColor: scheme.error,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.r),
                           ),
@@ -224,11 +213,8 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                             fit: BoxFit.scaleDown,
                             child: Text(
                               '삭제',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Inter',
+                              style: textTheme.headlineMedium?.copyWith(
+                                color: scheme.surface,
                               ),
                             ),
                           ),

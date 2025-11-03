@@ -22,11 +22,11 @@ class _ScreenMainBoxState extends ConsumerState<ScreenMainBox> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading:
             editMode
                 ? Padding(
@@ -44,7 +44,6 @@ class _ScreenMainBoxState extends ConsumerState<ScreenMainBox> {
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -55,15 +54,12 @@ class _ScreenMainBoxState extends ConsumerState<ScreenMainBox> {
                   child: Image.asset(
                     'assets/images/greenlogo_fix.png',
                     width: 40,
+                    color: scheme.primary,
                   ),
                 ),
         title: Text(
           '즐겨찾기',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -82,17 +78,12 @@ class _ScreenMainBoxState extends ConsumerState<ScreenMainBox> {
               },
               child: Text(
                 '편집',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           SizedBox(height: 10.h),

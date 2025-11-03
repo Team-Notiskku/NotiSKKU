@@ -25,7 +25,7 @@ class _ForegroundMessageListenerState
   @override
   void initState() {
     super.initState();
-
+    debugPrint('👂 [ForegroundMessageListener] initState 실행됨');
     // initState에서의 구독은 listenManual로 관리
     _sub = ref.listenManual<NotificationProvider>(notificationProvider, (
       prev,
@@ -45,9 +45,18 @@ class _ForegroundMessageListenerState
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(title != null ? '$title\n$body' : body),
+            content: Text(
+              title != null ? '$title\n$body' : body,
+              style: const TextStyle(color: Colors.white),
+            ),
             behavior: widget.behavior,
             duration: widget.duration,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            margin: const EdgeInsets.all(16.0),
+            backgroundColor: const Color.fromARGB(255, 75, 73, 73),
+            elevation: 4.0,
           ),
         );
       });

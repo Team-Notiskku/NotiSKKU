@@ -19,8 +19,17 @@ class _FcmInitializerState extends ConsumerState<FcmInitializer> {
     if (_didInit) return;
     _didInit = true;
 
+    debugPrint('🚀 [FcmInitializer] didChangeDependencies 진입 / 1회 초기화 시작');
     // 🔹 Provider 인스턴스로 전역 1회 init
-    Future.microtask(() => ref.read(notificationProvider).init());
+    Future.microtask(() async {
+      try {
+        debugPrint('⚡ [FcmInitializer] notificationProvider.init() 호출 직전');
+        await ref.read(notificationProvider).init();
+        debugPrint('✅ [FcmInitializer] notificationProvider.init() 완료');
+      } catch (e, st) {
+        debugPrint('❌ [FcmInitializer] init 실패: $e\n$st');
+      }
+    });
   }
 
   @override

@@ -17,8 +17,11 @@ class PopupUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return AlertDialog(
-      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       contentPadding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 20.h),
       content: ConstrainedBox(
@@ -33,18 +36,13 @@ class PopupUi extends StatelessWidget {
               /// Title
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF0B5B42),
+                style: textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: scheme.primary,
                 ),
                 textAlign: TextAlign.center,
               ),
-              Divider(
-                color: const Color(0xFF0B5B42),
-                thickness: 2.h,
-                height: 10.h,
-              ),
+              Divider(color: scheme.primary, thickness: 2.h, height: 10.h),
               SizedBox(height: 10.h),
 
               /// Scrollable Content (only if too long)
@@ -57,11 +55,11 @@ class PopupUi extends StatelessWidget {
                 alignment: Alignment.center,
                 child: SizedBox(
                   width: 80.w,
-                  height: 27.h,
+                  height: 30.h,
                   child: ElevatedButton(
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0B5B42),
+                      backgroundColor: scheme.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.r),
                       ),
@@ -70,7 +68,10 @@ class PopupUi extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         confirmText,
-                        style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                        style: textTheme.headlineSmall?.copyWith(
+                          color: scheme.surface,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),

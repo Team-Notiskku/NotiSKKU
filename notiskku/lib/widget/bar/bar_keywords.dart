@@ -28,6 +28,9 @@ class _BarKeywordsState extends ConsumerState<BarKeywords> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     final userState = ref.watch(userProvider);
     final savedKeywordList = userState.selectedKeywords;
     final selectedKeyword = ref.watch(selectedKeywordProvider);
@@ -40,7 +43,7 @@ class _BarKeywordsState extends ConsumerState<BarKeywords> {
             padding: EdgeInsets.symmetric(horizontal: 11.w),
             child: Text(
               '키워드 별 보기',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+              style: textTheme.headlineMedium?.copyWith(fontSize: 16.sp),
             ),
           ),
         ),
@@ -74,22 +77,17 @@ class _BarKeywordsState extends ConsumerState<BarKeywords> {
                           decoration: BoxDecoration(
                             color:
                                 isSelected
-                                    ? const Color(0xB20B5B42)
-                                    : const Color(0x99D9D9D9),
+                                    ? scheme.primary.withOpacity(0.7)
+                                    : scheme.secondary.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             keyword.keyword,
-                            style: TextStyle(
+                            style: textTheme.labelSmall?.copyWith(
                               color:
-                                  isSelected
-                                      ? Colors.white
-                                      : const Color(0xFF979797),
+                                  isSelected ? scheme.surface : scheme.outline,
+                              fontWeight: FontWeight.w800,
                               fontSize: 14.sp,
-                              fontWeight:
-                                  isSelected
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
                             ),
                           ),
                         ),

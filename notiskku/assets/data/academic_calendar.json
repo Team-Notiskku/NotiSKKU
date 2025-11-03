@@ -267,6 +267,370 @@
       "subject": "2학기 복학 신청",
       "isAllDay": true,
       "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-07-28T00:00:00.000",
+      "endTime": "2025-09-05T00:00:00.000",
+      "subject": "2학기 일반휴학 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-08-18T00:00:00.000",
+      "endTime": "2025-08-20T00:00:00.000",
+      "subject": "2025학년도 2학기 등록금 분할납부 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-08-22T00:00:00.000",
+      "endTime": "2025-08-28T00:00:00.000",
+      "subject": "2025학년도 2학기 등록/ 분할납부 신청자 1차 등록",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-08-25T00:00:00.000",
+      "endTime": "2025-08-25T00:00:00.000",
+      "subject": "2025년 여름 학위수여식",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-08-31T00:00:00.000",
+      "endTime": "2025-08-31T00:00:00.000",
+      "subject": "여름방학 종료",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-01T00:00:00.000",
+      "endTime": "2025-09-01T00:00:00.000",
+      "subject": "2025학년도 2학기 개시일/개강",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-01T00:00:00.000",
+      "endTime": "2025-09-04T00:00:00.000",
+      "subject": "학사과정 조기졸업/석사과정 수업연한 단축/석박사통합과정 조기수료·이수포기 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-01T00:00:00.000",
+      "endTime": "2025-09-04T00:00:00.000",
+      "subject": "대학원과정 논문제출자격시험 응시(면제) 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-01T00:00:00.000",
+      "endTime": "2025-09-05T00:00:00.000",
+      "subject": "2025학년도 2학기 추가 등록(분할납부자 포함)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-01T00:00:00.000",
+      "endTime": "2025-09-06T00:00:00.000",
+      "subject": "수강신청 확인/변경",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-10T00:00:00.000",
+      "endTime": "2025-09-12T00:00:00.000",
+      "subject": "학사과정 학점포기 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-17T00:00:00.000",
+      "endTime": "2025-09-19T00:00:00.000",
+      "subject": "수강철회 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-25T00:00:00.000",
+      "endTime": "2025-09-25T00:00:00.000",
+      "subject": "건학기념일",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-28T00:00:00.000",
+      "endTime": "2025-09-28T00:00:00.000",
+      "subject": "공부자탄강일(수업일수 1/4)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-29T00:00:00.000",
+      "endTime": "2025-10-01T00:00:00.000",
+      "subject": "등록금 분할납부 신청자 2차 등록(4회 분납자)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-09-30T00:00:00.000",
+      "endTime": "2025-09-30T00:00:00.000",
+      "subject": "(학기 개시 30일)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-22T00:00:00.000",
+      "subject": "등록금 분할납부 신청자 최종(2회 분납자)/ 3차(4회 분납자) 등록",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-24T00:00:00.000",
+      "subject": "2학기 중간시험",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-24T00:00:00.000",
+      "subject": "학사과정 복수전공, 융합트랙 1차 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-24T00:00:00.000",
+      "subject": "학사·대학원과정 마이크로디그리 1차 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-27T00:00:00.000",
+      "subject": "대학원과정 학위논문 예비·심사 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-20T00:00:00.000",
+      "endTime": "2025-10-31T00:00:00.000",
+      "subject": "2학기 중간강의평가",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-25T00:00:00.000",
+      "endTime": "2025-10-25T00:00:00.000",
+      "subject": "(수업일수 2/4)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-10-30T00:00:00.000",
+      "endTime": "2025-10-30T00:00:00.000",
+      "subject": "(학기 개시 60일)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-10T00:00:00.000",
+      "endTime": "2025-11-12T00:00:00.000",
+      "subject": "등록금 분할납부 신청자 최종 등록(4회 분납자)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-10T00:00:00.000",
+      "endTime": "2025-11-14T00:00:00.000",
+      "subject": "학사과정 교직과정 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-22T00:00:00.000",
+      "endTime": "2025-11-22T00:00:00.000",
+      "subject": "(수업일수 3/4) 일반휴학신청 마감기한",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-23T00:00:00.000",
+      "endTime": "2025-12-19T00:00:00.000",
+      "subject": "재학중 입대휴학자 학점인정 신청가능 입대일",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-24T00:00:00.000",
+      "endTime": "2025-12-05T00:00:00.000",
+      "subject": "2026학년도 1학기 학사과정 학석사연계과정 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-24T00:00:00.000",
+      "endTime": "2025-12-05T00:00:00.000",
+      "subject": "2학기 기말강의평가",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-11-29T00:00:00.000",
+      "endTime": "2025-11-29T00:00:00.000",
+      "subject": "(학기 개시 90일)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-15T00:00:00.000",
+      "endTime": "2025-12-19T00:00:00.000",
+      "subject": "2학기 기말시험",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-15T00:00:00.000",
+      "endTime": "2025-12-25T00:00:00.000",
+      "subject": "2학기 성적 입력",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-19T00:00:00.000",
+      "endTime": "2025-12-19T00:00:00.000",
+      "subject": "2학기 종강 (수업일수 4/4)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-20T00:00:00.000",
+      "endTime": "2025-12-20T00:00:00.000",
+      "subject": "겨울방학",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-22T00:00:00.000",
+      "endTime": "2025-12-22T00:00:00.000",
+      "subject": "겨울 계절수업 시작",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-26T00:00:00.000",
+      "endTime": "2025-12-31T00:00:00.000",
+      "subject": "2학기 성적 공시",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2025-12-30T00:00:00.000",
+      "endTime": "2025-12-30T00:00:00.000",
+      "subject": "2026년 2월 졸업예정 학사과정 3품인증 취득증빙 제출기한",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-05T00:00:00.000",
+      "endTime": "2026-01-05T00:00:00.000",
+      "subject": "2학기 성적 확정",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-05T00:00:00.000",
+      "endTime": "2026-01-05T00:00:00.000",
+      "subject": "2026년 2월 학위취득예정 대학원과정 학위논문 On-line 탑재 완료 기한",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-12T00:00:00.000",
+      "endTime": "2026-01-16T00:00:00.000",
+      "subject": "학사과정 복수전공, 융합트랙 2차 신청(교직복수전공 포함)",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-12T00:00:00.000",
+      "endTime": "2026-01-16T00:00:00.000",
+      "subject": "학사·대학원과정 마이크로디그리 2차 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-13T00:00:00.000",
+      "endTime": "2026-01-13T00:00:00.000",
+      "subject": "2026년 2월 학위취득예정 대학원과정 학위논문 인쇄본 제출 기한",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-19T00:00:00.000",
+      "endTime": "2026-01-23T00:00:00.000",
+      "subject": "2026학년도 1학기 재입학 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-19T00:00:00.000",
+      "endTime": "2026-01-30T00:00:00.000",
+      "subject": "2026학년도 1학기 복학 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-01-26T00:00:00.000",
+      "endTime": "2026-03-06T00:00:00.000",
+      "subject": "2026학년도 1학기 일반휴학 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-02-11T00:00:00.000",
+      "endTime": "2026-02-13T00:00:00.000",
+      "subject": "2026학년도 1학기 등록금 분할납부 신청",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-02-19T00:00:00.000",
+      "endTime": "2026-02-26T00:00:00.000",
+      "subject": "2026학년도 1학기 등록/ 분할납부 신청자 1차 등록",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-02-25T00:00:00.000",
+      "endTime": "2026-02-25T00:00:00.000",
+      "subject": "2026년 겨울 학위수여식",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-02-28T00:00:00.000",
+      "endTime": "2026-02-28T00:00:00.000",
+      "subject": "겨울방학 종료",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-03-01T00:00:00.000",
+      "endTime": "2026-03-01T00:00:00.000",
+      "subject": "2026학년도 및 1학기 개시일",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
+    },
+    {
+      "startTime": "2026-03-03T00:00:00.000",
+      "endTime": "2026-03-03T00:00:00.000",
+      "subject": "2026학년도 1학기 개강",
+      "isAllDay": true,
+      "color": "colorDarkGreen"
     }
   ]
 }

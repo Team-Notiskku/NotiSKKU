@@ -3,7 +3,6 @@ import 'package:notiskku_demo/widgets/alarm_major_list.dart';
 import 'package:notiskku_demo/widgets/alarm_setup_complete_button.dart';
 import 'package:notiskku_demo/widgets/alarm_keywords_grid.dart';
 
-
 class SetAlarmScreen extends StatefulWidget {
   const SetAlarmScreen({super.key});
 
@@ -54,7 +53,6 @@ class _SetAlarmScreenState extends State<SetAlarmScreen> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 19,
-                  fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -79,7 +77,6 @@ class _SetAlarmScreenState extends State<SetAlarmScreen> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 19,
-                  fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -101,5 +98,4 @@ class _SetAlarmScreenState extends State<SetAlarmScreen> {
       ),
     );
   }
-
 }

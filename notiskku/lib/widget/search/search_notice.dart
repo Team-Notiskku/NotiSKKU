@@ -51,37 +51,44 @@ class _SearchNoticeState extends ConsumerState<SearchNotice> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return SizedBox(
       height: 40.h,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         padding: EdgeInsets.only(left: 12.w, right: 5.w),
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF0B5B42), width: 2.5.w),
+          border: Border.all(color: scheme.primary, width: 2.5.w),
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: TextField(
-                controller: _titleController,
-                maxLength: 50,
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  hintStyle: TextStyle(
-                    fontSize: 18.sp,
-                    color: const Color(0xFFD9D9D9),
+              child: Center(
+                child: TextField(
+                  controller: _titleController,
+                  maxLength: 50,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: scheme.onPrimary,
                   ),
-                  counterText: '',
-                  border: InputBorder.none,
+                  decoration: InputDecoration(
+                    hintText: widget.hintText,
+                    hintStyle: textTheme.bodyMedium?.copyWith(
+                      color: scheme.outline,
+                    ),
+                    counterText: '',
+                    border: InputBorder.none,
+                  ),
+                  onChanged: _onTextChanged, // 입력 시 검색 버튼 활성화
+                  onSubmitted: (value) => _onSearch(), // Enter 키 입력 시 검색 실행
                 ),
-                onChanged: _onTextChanged, // 입력 시 검색 버튼 활성화
-                onSubmitted: (value) => _onSearch(), // Enter 키 입력 시 검색 실행
               ),
             ),
             Row(
-              mainAxisSize: MainAxisSize.min,
               children: [
                 Align(
                   alignment: Alignment.centerRight,
@@ -90,7 +97,7 @@ class _SearchNoticeState extends ConsumerState<SearchNotice> {
                       _titleController.clear();
                       _onTextChanged('');
                     },
-                    icon: const Icon(Icons.cancel, color: Color(0xFFD9D9D9)),
+                    icon: Icon(Icons.cancel, color: scheme.secondary),
                     padding: EdgeInsets.zero,
                     splashRadius: 10.w, // 터치 효과 반경 설정
                   ),
@@ -105,6 +112,7 @@ class _SearchNoticeState extends ConsumerState<SearchNotice> {
                         'assets/images/green_search.png',
                         width: 37.w,
                         fit: BoxFit.contain,
+                        color: scheme.primary,
                       ),
                     ),
                   ),

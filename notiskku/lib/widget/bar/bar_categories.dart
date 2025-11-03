@@ -18,6 +18,9 @@ class _BarCategoriesState extends ConsumerState<BarCategories> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     final currentCategory = ref.watch(barCategoriesProvider);
     final notifier = ref.read(barCategoriesProvider.notifier);
 
@@ -30,7 +33,7 @@ class _BarCategoriesState extends ConsumerState<BarCategories> {
             child: Row(
               children: List.generate(Categories.values.length, (index) {
                 return Padding(
-                  padding: EdgeInsets.only(left: 7.w), //
+                  padding: EdgeInsets.only(left: 7.w),
                   child: GestureDetector(
                     onTap: () {
                       ref
@@ -46,23 +49,22 @@ class _BarCategoriesState extends ConsumerState<BarCategories> {
                         padding: EdgeInsets.symmetric(
                           horizontal: 25.w,
                           vertical: 6.h,
-                        ), // 패딩 조정
+                        ),
                         decoration: BoxDecoration(
                           color:
                               currentCategory == Categories.values[index]
-                                  ? const Color(0xB20B5B42)
-                                  : const Color(0x99D9D9D9),
+                                  ? scheme.primary.withOpacity(0.7)
+                                  : scheme.secondary.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Text(
                           _getCategoryLabel(Categories.values[index]),
-                          style: TextStyle(
+                          style: textTheme.labelSmall?.copyWith(
                             color:
                                 currentCategory == Categories.values[index]
-                                    ? Colors.white
-                                    : const Color(0xFF979797),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w400,
+                                    ? scheme.surface
+                                    : scheme.outline,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),

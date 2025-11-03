@@ -21,33 +21,41 @@ class _SearchMajorState extends ConsumerState<SearchMajor> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return SizedBox(
       height: 40.h,
       child: Container(
-        padding: EdgeInsets.only(left: 12.w, right: 5),
+        padding: EdgeInsets.only(left: 12.w, right: 5.w),
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF0B5B42), width: 2.5.w),
+          border: Border.all(color: scheme.primary, width: 2.5.w),
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: TextField(
-                controller: _controller,
-                maxLength: 50,
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
-                  hintText: '검색어를 입력하세요.',
-                  hintStyle: TextStyle(
-                    fontSize: 18.sp,
-                    color: const Color(0xFFD9D9D9),
+              child: Center(
+                child: TextField(
+                  controller: _controller,
+                  maxLength: 50,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: scheme.onPrimary,
                   ),
-                  counterText: '',
-                  border: InputBorder.none,
+                  decoration: InputDecoration(
+                    hintText: '검색어를 입력하세요.',
+                    hintStyle: textTheme.bodyMedium?.copyWith(
+                      color: scheme.outline,
+                    ),
+                    counterText: '',
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (text) {
+                    ref.read(userProvider.notifier).updateSearchText(text);
+                  },
                 ),
-                onChanged: (text) {
-                  ref.read(userProvider.notifier).updateSearchText(text);
-                },
               ),
             ),
             Row(
@@ -59,7 +67,7 @@ class _SearchMajorState extends ConsumerState<SearchMajor> {
                       _controller.clear();
                       ref.read(userProvider.notifier).updateSearchText('');
                     },
-                    icon: const Icon(Icons.cancel, color: Color(0xffd9d9d9)),
+                    icon: Icon(Icons.cancel, color: scheme.secondary),
                     padding: EdgeInsets.zero,
                     splashRadius: 10.w, // 터치 효과 반경 설정
                   ),
@@ -76,6 +84,7 @@ class _SearchMajorState extends ConsumerState<SearchMajor> {
                         'assets/images/green_search.png',
                         width: 37.w,
                         fit: BoxFit.contain,
+                        color: scheme.primary,
                       ),
                     ),
                   ),

@@ -14,21 +14,20 @@ class DialogSetAlarmInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-      backgroundColor: Colors.white,
-      title: Text(
-        '편집이 완료되었습니다!',
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-          color: const Color(0xFF0B5B42),
-        ),
-      ),
+      title: Text('편집이 완료되었습니다!', style: textTheme.headlineMedium),
       content: Text(
         '새로 추가된 학과/키워드에 대한 알림은\n'
         '\'더보기 > 학과 및 키워드 알림 설정\'에서\n설정할 수 있습니다.',
-        style: TextStyle(fontSize: 12.sp),
+        style: textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 12.sp,
+        ),
       ),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
@@ -42,7 +41,7 @@ class DialogSetAlarmInfo extends StatelessWidget {
           child: Text(
             '알림 설정 바로가기',
             style: TextStyle(
-              color: const Color(0xFF979797),
+              color: scheme.outline,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -56,7 +55,11 @@ class DialogSetAlarmInfo extends StatelessWidget {
           onPressed: onTapOk,
           child: Text(
             '확인',
-            style: TextStyle(fontSize: 16.sp, color: const Color(0xFF0B5B42)),
+            style: textTheme.headlineMedium?.copyWith(
+              color: scheme.primary,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
       ],
