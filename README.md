@@ -239,9 +239,9 @@ git push origin feature/AmazingFeature
 
 ## 🔗 관련 링크
 
-- [Organization README](../README.md)
-- [Google Play Store](https://play.google.com/store/apps/details?id=com.notiskku.app)
-- [App Store](https://apps.apple.com/app/notiskku/id0000000000)
+- [Organization NotiSKKU](https://github.com/Team-Notiskku)
+- [Google Play Store (will soon be available)]()
+- [App Store (will soon be available)]()
 
 <br/>
 
