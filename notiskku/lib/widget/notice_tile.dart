@@ -78,7 +78,10 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
             ),
             child: Text(
               applyWordBreakFix(title),
-              style: textTheme.headlineMedium?.copyWith(fontSize: 12.sp),
+              style: textTheme.headlineMedium?.copyWith(
+                fontSize: 12.sp,
+                height: 1.5,
+              ),
             ),
           ),
           subtitle: Padding(
