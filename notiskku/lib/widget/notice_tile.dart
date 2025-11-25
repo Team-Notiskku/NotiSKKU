@@ -80,7 +80,7 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
               applyWordBreakFix(title),
               style: textTheme.headlineMedium?.copyWith(
                 fontSize: 12.sp,
-                height: 1.5,
+                height: 1.6,
               ),
             ),
           ),
