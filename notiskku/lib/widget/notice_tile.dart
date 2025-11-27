@@ -6,6 +6,8 @@ import 'package:notiskku/notice_functions/launch_url.dart';
 import 'package:notiskku/providers/tab_providers.dart';
 import 'package:notiskku/providers/user/user_provider.dart';
 
+import 'package:notiskku/providers/read_notices_provider.dart';
+
 class NoticeTile extends ConsumerStatefulWidget {
   final Map<String, dynamic> notice;
 
@@ -36,6 +38,9 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
     final userState = ref.watch(userProvider);
     final starredNotices = userState.starredNotices;
     final currentTab = ref.watch(tabIndexProvider);
+
+    final readNotices = ref.watch(readNoticesProvider);
+    final bool isRead = readNotices.contains(hash);
 
     // ====== [NEW 뱃지용 최근 7일 판정] ======
     bool isNew = false;
@@ -108,6 +113,11 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
                     style: textTheme.headlineMedium?.copyWith(
                       fontSize: 12.sp,
                       height: 1.5,
+                      fontWeight: isRead ? FontWeight.w400 : FontWeight.w600,
+                      color:
+                          isRead
+                              ? textTheme.bodySmall?.color?.withAlpha(180)
+                              : null,
                     ),
                   ),
                 ),
@@ -186,7 +196,13 @@ class _NoticeTileState extends ConsumerState<NoticeTile> {
               color: scheme.primary,
             ),
           ),
-          onTap: () => launchUrlService.launchURL(link),
+          onTap: () async {
+            // 1) 읽음으로 표시
+            await ref.read(readNoticesProvider.notifier).markAsRead(hash);
+
+            // 2) 실제 공지 링크 열기
+            await launchUrlService.launchURL(link);
+          },
         ),
         Divider(thickness: 1.h, indent: 16.w, endIndent: 16.w),
       ],
