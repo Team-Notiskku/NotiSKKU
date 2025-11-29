@@ -110,10 +110,6 @@ class _ScreenMainKeywordEditState extends ConsumerState<ScreenMainKeywordEdit> {
       }
     });
 
-    // "설정 완료" 버튼 활성화 조건 (비어있어도 '선택하지 않음'이면 활성화)
-    final isButtonEnabled =
-        userState.selectedKeywords.isNotEmpty || userState.doNotSelectKeywords;
-
     final searchText = userState.currentSearchText;
 
     return PopScope(
@@ -153,41 +149,34 @@ class _ScreenMainKeywordEditState extends ConsumerState<ScreenMainKeywordEdit> {
 
             WideCondition(
               text: '설정 완료',
-              isEnabled: isButtonEnabled,
-              onPressed:
-                  isButtonEnabled
-                      ? () async {
-                        final user = ref.read(userProvider);
+              isEnabled: true,
+              onPressed: () async {
+                final user = ref.read(userProvider);
 
-                        debugPrint('-----------------------------');
-                        debugPrint(
-                          '⚙️ [ScreenMainKeywordEdit] 키워드 편집 완료 → 로딩 화면으로 이동',
-                        );
-                        debugPrint(
-                          '선택된 키워드: ${user.selectedKeywords.map((k) => k.keyword).join(", ")}',
-                        );
-                        debugPrint(
-                          '선택하지 않음(doNotSelectKeywords): ${user.doNotSelectKeywords}',
-                        );
-                        debugPrint(
-                          '현재 검색어(currentSearchText): ${user.currentSearchText}',
-                        );
-                        debugPrint('-----------------------------');
+                debugPrint('-----------------------------');
+                debugPrint('⚙️ [ScreenMainKeywordEdit] 키워드 편집 완료 → 로딩 화면으로 이동');
+                debugPrint(
+                  '선택된 키워드: ${user.selectedKeywords.map((k) => k.keyword).join(", ")}',
+                );
+                debugPrint(
+                  '선택하지 않음(doNotSelectKeywords): ${user.doNotSelectKeywords}',
+                );
+                debugPrint(
+                  '현재 검색어(currentSearchText): ${user.currentSearchText}',
+                );
+                debugPrint('-----------------------------');
 
-                        _committed = true; // 완료 확정 → 뒤로가기 복원 방지
+                _committed = true; // 완료 확정 → 뒤로가기 복원 방지
 
-                        if (!mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => const ScreenIntroLoading(
-                                  isFromAlarm: false,
-                                ),
-                          ),
-                        );
-                      }
-                      : null,
+                if (!mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (_) => const ScreenIntroLoading(isFromAlarm: false),
+                  ),
+                );
+              },
             ),
 
             SizedBox(height: 30.h),
