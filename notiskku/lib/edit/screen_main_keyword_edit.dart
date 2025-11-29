@@ -93,12 +93,16 @@ class _ScreenMainKeywordEditState extends ConsumerState<ScreenMainKeywordEdit> {
   Widget build(BuildContext context) {
     final userState = ref.watch(userProvider);
 
-    // ✅ 자동 토글: 선택 키워드가 0개가 되는 순간 doNotSelectKeywords = true
     ref.listen(userProvider, (prev, next) {
       if (_isRestoring || _committed || !mounted) return;
-      final becameEmpty = next.selectedKeywords.isEmpty;
-      final notYetFlag = !next.doNotSelectKeywords;
-      if (becameEmpty && notYetFlag) {
+
+      final prevEmpty = prev?.selectedKeywords.isEmpty ?? false;
+      final nextEmpty = next.selectedKeywords.isEmpty;
+      final flagIsFalse = !next.doNotSelectKeywords;
+
+      // "비어있지 않던(selectedKeywords) 상태" → "비어 있는 상태"로 변한 순간에만
+      //    그리고 아직 doNotSelectKeywords가 false일 때만 자동 토글
+      if (!prevEmpty && nextEmpty && flagIsFalse) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           ref.read(userProvider.notifier).toggleDoNotSelectKeywords();
