@@ -66,8 +66,8 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
                     ),
                     SizedBox(height: 16.h),
                     Text(
-                      '학과를 선택해야 검색할 수 있어요 🥲',
-                      style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                      '학과를 선택해야 검색할 수 있어요.',
+                      style: TextStyle(fontSize: 14.sp),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 16.h),
@@ -84,7 +84,6 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
                         '→ 학과 선택하러 가기',
                         style: TextStyle(
                           fontSize: 20.sp,
-                          color: Color(0xFF0B5B42),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

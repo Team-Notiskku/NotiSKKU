@@ -247,7 +247,7 @@ class ScreenMainNotice extends ConsumerWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                '학과 선택 후 단과대/학과별 공지를 볼 수 있어요🥲',
+                '학과 선택 후 단과대/학과별 공지를 볼 수 있어요.',
                 style: TextStyle(fontSize: 14.sp),
                 textAlign: TextAlign.center,
               ),

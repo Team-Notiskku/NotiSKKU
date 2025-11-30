@@ -78,11 +78,8 @@ class ScreenMainKeyword extends ConsumerWidget {
                             ),
                             SizedBox(height: 16.h),
                             Text(
-                              '키워드 선택 후 키워드별 공지를 볼 수 있어요',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: Colors.grey,
-                              ),
+                              '키워드 선택 후 키워드별 공지를 볼 수 있어요.',
+                              style: TextStyle(fontSize: 14.sp),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 16.h),
@@ -101,7 +98,6 @@ class ScreenMainKeyword extends ConsumerWidget {
                                 '→ 키워드 선택하러 가기',
                                 style: TextStyle(
                                   fontSize: 20.sp,
-                                  color: Color(0xFF0B5B42),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
