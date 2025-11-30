@@ -56,6 +56,26 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
     setState(() => _noticeDocs = orderedDocs);
   }
 
+  // ====== NoticeTile과 동일한 한글 줄바꿈 개선 함수 ======
+  String applyWordBreakFix(String text) {
+    final RegExp emoji = RegExp(
+      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])',
+    );
+    String fullText = '';
+    List<String> words = text.split(' ');
+    for (var i = 0; i < words.length; i++) {
+      fullText +=
+          emoji.hasMatch(words[i])
+              ? words[i]
+              : words[i].replaceAllMapped(
+                RegExp(r'(\S)(?=\S)'),
+                (m) => '${m[1]}\u200D',
+              );
+      if (i < words.length - 1) fullText += ' ';
+    }
+    return fullText;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -74,15 +94,21 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
           child: Center(
             child: Text(
               '취소',
-              style: TextStyle(
+              style: textTheme.headlineMedium?.copyWith(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 color: scheme.error,
               ),
             ),
           ),
         ),
-        title: Text('공지 편집'),
+        title: Text(
+          '공지 편집',
+          style: textTheme.headlineMedium?.copyWith(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
           GestureDetector(
             onTap: () {
@@ -97,12 +123,12 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Text(
                 '전체선택',
-                style: TextStyle(
+                style: textTheme.headlineMedium?.copyWith(
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   color: isAllSelected ? scheme.primary : scheme.outline,
                 ),
               ),
@@ -125,7 +151,7 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
               )
               : Column(
                 children: [
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Expanded(
                     child: ListView.builder(
                       itemCount: _noticeDocs!.length,
@@ -150,15 +176,31 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                   }
                                 });
                               },
-                              title: Text(
-                                title,
-                                style: TextStyle(fontSize: 15.sp),
+                              title: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 1.0,
+                                  right: 1.0,
+                                  top: 4.0,
+                                  bottom: 3.0,
+                                ),
+                                child: Text(
+                                  applyWordBreakFix(title),
+                                  style: textTheme.headlineMedium?.copyWith(
+                                    fontSize: 12.sp,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                              subtitle: Text(
-                                '$date | 조회수: $views',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: scheme.outline,
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  '$date | 조회수: $views',
+                                  style: textTheme.labelSmall?.copyWith(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: scheme.outline,
+                                  ),
                                 ),
                               ),
                               trailing: Icon(
