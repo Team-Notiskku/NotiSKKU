@@ -93,22 +93,22 @@ class _ScreenMainKeywordEditState extends ConsumerState<ScreenMainKeywordEdit> {
   Widget build(BuildContext context) {
     final userState = ref.watch(userProvider);
 
-    // ✅ 자동 토글: 선택 키워드가 0개가 되는 순간 doNotSelectKeywords = true
     ref.listen(userProvider, (prev, next) {
       if (_isRestoring || _committed || !mounted) return;
-      final becameEmpty = next.selectedKeywords.isEmpty;
-      final notYetFlag = !next.doNotSelectKeywords;
-      if (becameEmpty && notYetFlag) {
+
+      final prevEmpty = prev?.selectedKeywords.isEmpty ?? false;
+      final nextEmpty = next.selectedKeywords.isEmpty;
+      final flagIsFalse = !next.doNotSelectKeywords;
+
+      // "비어있지 않던(selectedKeywords) 상태" → "비어 있는 상태"로 변한 순간에만
+      //    그리고 아직 doNotSelectKeywords가 false일 때만 자동 토글
+      if (!prevEmpty && nextEmpty && flagIsFalse) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           ref.read(userProvider.notifier).toggleDoNotSelectKeywords();
         });
       }
     });
-
-    // "설정 완료" 버튼 활성화 조건 (비어있어도 '선택하지 않음'이면 활성화)
-    final isButtonEnabled =
-        userState.selectedKeywords.isNotEmpty || userState.doNotSelectKeywords;
 
     final searchText = userState.currentSearchText;
 
@@ -149,41 +149,34 @@ class _ScreenMainKeywordEditState extends ConsumerState<ScreenMainKeywordEdit> {
 
             WideCondition(
               text: '설정 완료',
-              isEnabled: isButtonEnabled,
-              onPressed:
-                  isButtonEnabled
-                      ? () async {
-                        final user = ref.read(userProvider);
+              isEnabled: true,
+              onPressed: () async {
+                final user = ref.read(userProvider);
 
-                        debugPrint('-----------------------------');
-                        debugPrint(
-                          '⚙️ [ScreenMainKeywordEdit] 키워드 편집 완료 → 로딩 화면으로 이동',
-                        );
-                        debugPrint(
-                          '선택된 키워드: ${user.selectedKeywords.map((k) => k.keyword).join(", ")}',
-                        );
-                        debugPrint(
-                          '선택하지 않음(doNotSelectKeywords): ${user.doNotSelectKeywords}',
-                        );
-                        debugPrint(
-                          '현재 검색어(currentSearchText): ${user.currentSearchText}',
-                        );
-                        debugPrint('-----------------------------');
+                debugPrint('-----------------------------');
+                debugPrint('⚙️ [ScreenMainKeywordEdit] 키워드 편집 완료 → 로딩 화면으로 이동');
+                debugPrint(
+                  '선택된 키워드: ${user.selectedKeywords.map((k) => k.keyword).join(", ")}',
+                );
+                debugPrint(
+                  '선택하지 않음(doNotSelectKeywords): ${user.doNotSelectKeywords}',
+                );
+                debugPrint(
+                  '현재 검색어(currentSearchText): ${user.currentSearchText}',
+                );
+                debugPrint('-----------------------------');
 
-                        _committed = true; // 완료 확정 → 뒤로가기 복원 방지
+                _committed = true; // 완료 확정 → 뒤로가기 복원 방지
 
-                        if (!mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => const ScreenIntroLoading(
-                                  isFromAlarm: false,
-                                ),
-                          ),
-                        );
-                      }
-                      : null,
+                if (!mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (_) => const ScreenIntroLoading(isFromAlarm: false),
+                  ),
+                );
+              },
             ),
 
             SizedBox(height: 30.h),
