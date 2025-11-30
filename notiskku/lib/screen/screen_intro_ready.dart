@@ -49,12 +49,13 @@ class ScreenIntroReady extends StatelessWidget {
                 child: WideGreen(
                   text: '나의 공지 보러가기',
                   onPressed: () async {
+                    // isFirstLaunch 플래그 저장
                     await AppPreferences.setFirstLaunch();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ScreenMainTabs(),
-                      ),
+
+                    // !! 온보딩 이전에 쌓여 있던 모든 라우트 제거
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const ScreenMainTabs()),
+                      (route) => false, // <- 스택에 있는 모든 route를 제거함
                     );
                   },
                 ),

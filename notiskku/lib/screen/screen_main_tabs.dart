@@ -115,23 +115,20 @@ class _ScreenMainTabsState extends ConsumerState<ScreenMainTabs> {
     final scheme = theme.colorScheme;
     final currentIndex = ref.watch(tabIndexProvider);
 
-    return PopScope(
-      canPop: false, // 뒤로가기 차단
-      child: Scaffold(
-        body: _pages[currentIndex],
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            elevation: 0,
-            items: _navItems,
-            currentIndex: currentIndex,
-            selectedItemColor: scheme.primary,
-            unselectedItemColor: scheme.outline,
-            selectedFontSize: 11.sp,
-            unselectedFontSize: 11.sp,
-            onTap: _onItemTapped,
-          ),
+    return Scaffold(
+      body: _pages[currentIndex],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          items: _navItems,
+          currentIndex: currentIndex,
+          selectedItemColor: scheme.primary,
+          unselectedItemColor: scheme.outline,
+          selectedFontSize: 11.sp,
+          unselectedFontSize: 11.sp,
+          onTap: _onItemTapped,
         ),
       ),
     );
