@@ -46,9 +46,10 @@ exports.scheduledPushNotification = onSchedule(
           const tdata = t.data();
           const topicId = t.id;
           const topicName = tdata.topic;
+          const tType = tdata.type;
 
           if (
-            title.includes(topicName) ||
+            (title.includes(topicName) && tType == "전체") ||
             major === topicName ||
             department === topicName
           ) {
