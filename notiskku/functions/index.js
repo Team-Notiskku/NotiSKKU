@@ -10,7 +10,7 @@ const messaging = getMessaging();
 
 exports.scheduledPushNotification = onSchedule(
   {
-    schedule: "*/30 * * * *", // 10분마다 실행
+    schedule: "*/30 * * * *", // 30분마다 실행
     timeZone: "Asia/Seoul",
   },
   async () => {
@@ -46,10 +46,9 @@ exports.scheduledPushNotification = onSchedule(
           const tdata = t.data();
           const topicId = t.id;
           const topicName = tdata.topic;
-          const tType = tdata.type;
 
           if (
-            (title.includes(topicName) && tType == "전체") ||
+            (title.includes(topicName) && data.type == "전체") ||
             major === topicName ||
             department === topicName
           ) {
