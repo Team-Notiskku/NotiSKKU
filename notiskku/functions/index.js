@@ -10,7 +10,7 @@ const messaging = getMessaging();
 
 exports.scheduledPushNotification = onSchedule(
   {
-    schedule: "*/30 * * * *", // 30분마다 실행
+    schedule: "*/30 * * * *",
     timeZone: "Asia/Seoul",
   },
   async () => {
@@ -20,68 +20,84 @@ exports.scheduledPushNotification = onSchedule(
       const now = new Date();
       const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
 
-      const notices = await db
+      const noticesSnap = await db
         .collection("notices")
         .where("updated_at", ">=", thirtyMinutesAgo)
+        .where("push_sent", "!=", true)
         .get();
 
-      if (notices.empty) {
+      if (noticesSnap.empty) {
         logger.info("새로운 공지가 없습니다.");
         return;
       }
 
-      for (const doc of notices.docs) {
+      const topicSnap = await db.collection("topic").get();
+      const topicMap = {}; // topicId -> topicName
+      const topicEntries = []; // [{ id, name }]
+
+      topicSnap.forEach((doc) => {
+        const name = doc.data().topic;
+        topicMap[doc.id] = name;
+        topicEntries.push({ id: doc.id, name });
+      });
+
+      for (const doc of noticesSnap.docs) {
         const data = doc.data();
-        const { title, major, department, url } = data;
+        const { title, major, department, url, type } = data;
 
         if (!title) {
           logger.warn(`공지 ${doc.id}에 title 누락`);
           continue;
         }
 
-        let matchedTopics = [];
+        const matchedTopics = new Set();
 
-        const topicDocs = await db.collection("topic").get();
-        topicDocs.forEach((t) => {
-          const tdata = t.data();
-          const topicId = t.id;
-          const topicName = tdata.topic;
-
+        for (const { id, name } of topicEntries) {
           if (
-            (title.includes(topicName) && data.type == "전체") ||
-            major === topicName ||
-            department === topicName
+            (type === "전체" && title.includes(name)) ||
+            major === name ||
+            department === name
           ) {
-            matchedTopics.push(topicId);
+            matchedTopics.add(id);
           }
-        });
+        }
 
-        matchedTopics = [...new Set(matchedTopics)];
-
-        if (matchedTopics.length === 0) {
+        if (matchedTopics.size === 0) {
           logger.info(`공지 '${title}'은 알림 대상 없음`);
           continue;
         }
 
+        let allSuccess = true;
+
         for (const topicId of matchedTopics) {
-          const topicDoc = await db.collection("topic").doc(topicId).get();
-          const mappedName = topicDoc.exists
-            ? topicDoc.data().topic
-            : topicId;
+          const mappedName = topicMap[topicId] ?? topicId;
 
           const message = {
             notification: {
               title: `${mappedName} 관련 공지사항`,
               body: title,
             },
-            data: {
-              url: url, 
-            },
+            data: { url },
             topic: topicId,
           };
 
-          await messaging.send(message);
-          logger.info(`'${mappedName}' (${topicId}) 푸시 전송 완료`);
+          try {
+            await messaging.send(message);
+            logger.info(`'${mappedName}' (${topicId}) 푸시 전송 완료`);
+          } catch (e) {
+            allSuccess = false;
+            logger.error(`푸시 전송 실패 (${topicId})`, e);
+          }
+        }
+
+        if (allSuccess) {
+          await db.collection("notices").doc(doc.id).update({
+            push_sent: true,
+            push_sent_at: new Date(),
+          });
+          logger.info(`공지 '${title}' push_sent 처리 완료`);
+        } else {
+          logger.warn(`공지 '${title}' 일부 푸시 실패 → 재시도 대기`);
         }
       }
     } catch (err) {
