@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "816941767036",
+    "project_id": "notiskku-database",
+    "storage_bucket": "notiskku-database.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816941767036:android:4f0bb818c12ccb3077ecf9",
+        "android_client_info": {
+          "package_name": "app.notiskku.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqmwUlGIkmIQ7dS_dDTv698WF3Bc2Gqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816941767036:android:17a63096e1a90c2377ecf9",
+        "android_client_info": {
+          "package_name": "com.example.firestore_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqmwUlGIkmIQ7dS_dDTv698WF3Bc2Gqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816941767036:android:bca2304f6a1d0f8e77ecf9",
+        "android_client_info": {
+          "package_name": "com.example.notiskku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqmwUlGIkmIQ7dS_dDTv698WF3Bc2Gqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816941767036:android:03c722521ad818fb77ecf9",
+        "android_client_info": {
+          "package_name": "com.notiskku.firestore_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqmwUlGIkmIQ7dS_dDTv698WF3Bc2Gqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
