@@ -1,5 +1,10 @@
 /backend
 /venv
 .vscode
+.claude/
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
 
 .DS_Store
