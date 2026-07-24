@@ -30,6 +30,9 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     final typeState = ref.watch(barNoticesProvider);
     final userState = ref.watch(userProvider);
     final majorIndex = ref.watch(selectedMajorIndexProvider);
@@ -45,7 +48,6 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
 
     return Scaffold(
       appBar: _buildAppBar(context),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           BarNotices(),
@@ -64,8 +66,8 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
                     ),
                     SizedBox(height: 16.h),
                     Text(
-                      '학과를 선택해야 검색할 수 있어요 🥲',
-                      style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                      '학과를 선택해야 검색할 수 있어요.',
+                      style: TextStyle(fontSize: 14.sp),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 16.h),
@@ -82,7 +84,6 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
                         '→ 학과 선택하러 가기',
                         style: TextStyle(
                           fontSize: 20.sp,
-                          color: Color(0xFF0B5B42),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -104,10 +105,8 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         isSearched ? "‘$searchText’에 대한 검색 결과" : '최근 검색 내역',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600,
+                        style: textTheme.headlineMedium?.copyWith(
+                          fontSize: 15.sp,
                         ),
                       ),
                     ),
@@ -134,22 +133,16 @@ class ScreenMainSearchState extends ConsumerState<ScreenMainSearch> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return AppBar(
-      backgroundColor: Colors.white,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: Color(0xFF979797)),
+        icon: Icon(Icons.arrow_back_ios, color: scheme.outline),
         onPressed: () => Navigator.pop(context),
       ),
-      title: Text(
-        '검색',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-      ),
+      title: Text('검색'),
       centerTitle: true,
       actions: [SizedBox(width: 40.w)],
     );

@@ -25,6 +25,67 @@ class UserNotifier extends StateNotifier<UserState> {
     );
   }
 
+  // ------------------- 수정된 부분 ------------------ //
+  // 1) 학과(전공) 선택 교체: 최대 2개, 중복 제거
+  void replaceSelectedMajors(List<Major> majors) {
+    final dedup = <String, Major>{};
+    for (final m in majors) {
+      if (dedup.length >= 2) break; // 최대 2개 제한
+      dedup[m.major] = m;
+    }
+    final next = dedup.values.toList(growable: false);
+    state = state.copyWith(selectedMajors: next);
+    UserPreferences.saveMajor(next);
+  }
+
+  // 2) 키워드 선택 교체: 중복 제거, "선택하지 않음"은 자동 해제
+  void replaceSelectedKeywords(List<Keyword> keywords) {
+    final dedup = <String, Keyword>{};
+    for (final k in keywords) {
+      dedup[k.keyword] = k;
+    }
+    final next = dedup.values.toList(growable: false);
+
+    state = state.copyWith(selectedKeywords: next, doNotSelectKeywords: false);
+    UserPreferences.saveKeywords(next);
+  }
+
+  // 3-A) 학과 알림 선택 교체: 전달된 majorName -> receive 로 일괄 반영
+  //     (맵에 없는 학과는 기존 값 유지)
+  void replaceMajorNotifications(Map<String, bool> receiveByMajor) {
+    final next = state.selectedMajors
+        .map(
+          (m) =>
+              receiveByMajor.containsKey(m.major)
+                  ? m.copyWith(receiveNotification: receiveByMajor[m.major]!)
+                  : m,
+        )
+        .toList(growable: false);
+
+    state = state.copyWith(selectedMajors: next);
+    UserPreferences.saveMajor(next);
+  }
+
+  // 3-B) 키워드 알림 선택 교체: 전달된 keyword -> receive 로 일괄 반영
+  //     (맵에 없는 키워드는 기존 값 유지)
+  void replaceKeywordNotifications(Map<String, bool> receiveByKeyword) {
+    final next = state.selectedKeywords
+        .map(
+          (k) =>
+              receiveByKeyword.containsKey(k.keyword)
+                  ? k.copyWith(
+                    receiveNotification: receiveByKeyword[k.keyword]!,
+                  )
+                  : k,
+        )
+        .toList(growable: false);
+
+    state = state.copyWith(selectedKeywords: next);
+    UserPreferences.saveKeywords(next);
+  }
+
+  // ------------------- 기존 부분 ------------------ //
+
   // 전공 선택
   bool toggleMajor(Major major) {
     final currentMajors = List<Major>.from(state.selectedMajors);
@@ -95,6 +156,15 @@ class UserNotifier extends StateNotifier<UserState> {
 
     state = state.copyWith(selectedKeywords: updatedKeywords);
     UserPreferences.saveKeywords(updatedKeywords);
+  }
+
+  /// 즐겨찾기 '제거'를 명시적으로 수행
+  /// (메인 홈에서 채운 별 -> 빈 별 전환 시 이 메서드를 호출)
+  void unstarNotice(String hash) {
+    if (!state.starredNotices.contains(hash)) return;
+    final next = List<String>.from(state.starredNotices)..remove(hash);
+    state = state.copyWith(starredNotices: next);
+    UserPreferences.saveStarred(next);
   }
 
   // 별표 등록/제거

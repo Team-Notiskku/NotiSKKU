@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:notiskku/screen/screen_intro.dart';
 import 'package:notiskku/screen/screen_main_tabs.dart';
 import 'package:notiskku/services/preferences_app.dart';
-// import 'package:notiskku/screen/screen_main_tabs.dart';
-// import 'package:notiskku/services/preferences_app.dart';
 
 // 3초 후 넘어가는 초록색 NotiSKKU 로고 페이지
 class ScreenLogoIntro extends StatefulWidget {
@@ -19,10 +17,19 @@ class _ScreenLogoIntroState extends State<ScreenLogoIntro> {
   void initState() {
     super.initState();
 
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   if (!mounted) return;
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const ScreenIntro()),
+    //   );
+    // });
+
     Future.delayed(const Duration(seconds: 1), () async {
       final isFirst = await AppPreferences.isFirstLaunch();
 
       if (isFirst) {
+        // await AppPreferences.isFirstLaunch();
         if (!mounted) return;
         Navigator.pushReplacement(
           context,
@@ -42,34 +49,41 @@ class _ScreenLogoIntroState extends State<ScreenLogoIntro> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff0b5b42),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 195.w,
+      body: Column(
+        children: [
+          // 🔼 가운데: 기존 초록 로고
+          Expanded(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 265.w,
+                    child: Image.asset(
+                      'assets/images/splash_logo_2025.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SizedBox(width: 15.w),
+                ],
+              ),
+            ),
+          ),
+
+          // 🔽 하단 중앙: team_notiskku_2025 로고
+          Padding(
+            padding: EdgeInsets.only(bottom: 24.h),
+            child: Center(
               child: Image.asset(
-                'assets/images/whitelogo_fix.png',
-                width: 110.w, // 반응형 너비
-                height: 130.h, // 반응형 높이
+                'assets/images/team_notiskku_2025.png',
+                width: 96.w,
+                height: 12.h,
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(
-              width: 195.w,
-              child: Text(
-                'NotiSKKU',
-                style: TextStyle(
-                  fontSize: 44.sp, // 반응형 폰트 크기
-                  color: Colors.white,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

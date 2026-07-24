@@ -2,60 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:notiskku/screen/screen_main_tabs.dart';
 import 'package:notiskku/widget/button/wide_green.dart';
+import 'package:notiskku/services/preferences_app.dart';
 
 class ScreenIntroReady extends StatelessWidget {
   const ScreenIntroReady({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(height: 60.h), // 반응형 상단 여백
-            Column(
-              children: [
-                Image.asset(
-                  'assets/images/fourth_fix.png',
-                  height: 170.h, // Image size based on screen height
-                  width: 170.h, // Image width based on screen width
-                  fit: BoxFit.contain,
-                ),
-                SizedBox(height: 23.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '이제 준비가 완료되었습니다!',
-                      style: TextStyle(
-                        color: Color(0xFF0B5B42),
-                        fontSize: 24.sp,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
+    return PopScope(
+      canPop: false, // 뒤로가기 차단
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(height: 60.h), // 반응형 상단 여백
+              Column(
+                children: [
+                  Image.asset(
+                    'assets/images/fourth_fix.png',
+                    height: 170.h,
+                    width: 170.h,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(height: 23.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '이제 준비가 완료되었습니다! ',
+                        style: textTheme.headlineMedium?.copyWith(
+                          color: scheme.primary,
+                        ),
                       ),
-                    ),
-                    Text('🎉', style: TextStyle(fontSize: 24.sp)),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 40.h), // 반응형 하단 여백
-              child: WideGreen(
-                text: '나의 공지 보러가기',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ScreenMainTabs(),
-                    ),
-                  );
-                },
+                      Text('🎉', style: TextStyle(fontSize: 16.sp)),
+                    ],
+                  ),
+                ],
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: WideGreen(
+                  text: '나의 공지 보러가기',
+                  onPressed: () async {
+                    // isFirstLaunch 플래그 저장
+                    await AppPreferences.setFirstLaunch();
+
+                    // !! 온보딩 이전에 쌓여 있던 모든 라우트 제거
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const ScreenMainTabs()),
+                      (route) => false, // <- 스택에 있는 모든 route를 제거함
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:notiskku/widget/popup/popup_ui.dart';
 
 class FAQPopup extends StatelessWidget {
@@ -6,6 +7,9 @@ class FAQPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
     return PopupUi(
       title: 'FAQ',
       onConfirm: () => Navigator.of(context).pop(),
@@ -16,12 +20,15 @@ class FAQPopup extends StatelessWidget {
             'assets/images/to_be_implemented_fix.png',
             width: 80,
             height: 80,
-            color: Colors.grey,
+            color: scheme.outline,
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             '서비스 준비 중입니다',
-            style: TextStyle(color: Colors.grey, fontSize: 18),
+            style: textTheme.headlineMedium?.copyWith(
+              color: scheme.outline,
+              fontSize: 16.sp,
+            ),
           ),
         ],
       ),

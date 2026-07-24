@@ -56,8 +56,32 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
     setState(() => _noticeDocs = orderedDocs);
   }
 
+  // ====== NoticeTile과 동일한 한글 줄바꿈 개선 함수 ======
+  String applyWordBreakFix(String text) {
+    final RegExp emoji = RegExp(
+      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])',
+    );
+    String fullText = '';
+    List<String> words = text.split(' ');
+    for (var i = 0; i < words.length; i++) {
+      fullText +=
+          emoji.hasMatch(words[i])
+              ? words[i]
+              : words[i].replaceAllMapped(
+                RegExp(r'(\S)(?=\S)'),
+                (m) => '${m[1]}\u200D',
+              );
+      if (i < words.length - 1) fullText += ' ';
+    }
+    return fullText;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scheme = theme.colorScheme;
+
     final starredHashes = ref.watch(userProvider).starredNotices;
     final bool isAllSelected =
         _selectedHashes.length == starredHashes.length &&
@@ -65,31 +89,26 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Center(
             child: Text(
               '취소',
-              style: TextStyle(
+              style: textTheme.headlineMedium?.copyWith(
                 fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                color: scheme.error,
               ),
             ),
           ),
         ),
         title: Text(
           '공지 편집',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+          style: textTheme.headlineMedium?.copyWith(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        centerTitle: true,
         actions: [
           GestureDetector(
             onTap: () {
@@ -104,36 +123,35 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Text(
                 '전체선택',
-                style: TextStyle(
+                style: textTheme.headlineMedium?.copyWith(
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color:
-                      isAllSelected
-                          ? const Color(0xFF0B5B42)
-                          : const Color(0xFF979797),
+                  fontWeight: FontWeight.w600,
+                  color: isAllSelected ? scheme.primary : scheme.outline,
                 ),
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       body:
           _noticeDocs == null
               ? const Center(child: CircularProgressIndicator())
               : _noticeDocs!.isEmpty
               ? Center(
                 child: Text(
-                  '저장된 공지가 없습니다',
-                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                  '저장된 공지가 없습니다.',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: scheme.outline,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               )
               : Column(
                 children: [
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Expanded(
                     child: ListView.builder(
                       itemCount: _noticeDocs!.length,
@@ -158,18 +176,31 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                   }
                                 });
                               },
-                              title: Text(
-                                title,
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: Colors.black,
+                              title: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 1.0,
+                                  right: 1.0,
+                                  top: 4.0,
+                                  bottom: 3.0,
+                                ),
+                                child: Text(
+                                  applyWordBreakFix(title),
+                                  style: textTheme.headlineMedium?.copyWith(
+                                    fontSize: 12.sp,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
-                              subtitle: Text(
-                                '$date | 조회수: $views',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: Colors.grey,
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  '$date | 조회수: $views',
+                                  style: textTheme.labelSmall?.copyWith(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: scheme.outline,
+                                  ),
                                 ),
                               ),
                               trailing: Icon(
@@ -178,13 +209,13 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                     : Icons.radio_button_unchecked,
                                 color:
                                     isSelected
-                                        ? const Color(0xFF0B5B42)
-                                        : Colors.grey,
+                                        ? scheme.primary
+                                        : scheme.outline,
                                 size: 26.sp,
                               ),
                             ),
                             Divider(
-                              color: Colors.grey,
+                              color: scheme.outline,
                               thickness: 1.h,
                               indent: 16.w,
                               endIndent: 16.w,
@@ -213,8 +244,8 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                                   Navigator.pop(context);
                                 },
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xFFE64343),
+                          foregroundColor: scheme.surface,
+                          backgroundColor: scheme.error,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.r),
                           ),
@@ -224,11 +255,8 @@ class _ScreenMainBoxEditState extends ConsumerState<ScreenMainBoxEdit> {
                             fit: BoxFit.scaleDown,
                             child: Text(
                               '삭제',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Inter',
+                              style: textTheme.headlineMedium?.copyWith(
+                                color: scheme.surface,
                               ),
                             ),
                           ),

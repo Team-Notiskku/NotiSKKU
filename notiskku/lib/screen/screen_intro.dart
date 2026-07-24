@@ -36,13 +36,15 @@ class _ScreenIntroSliderState extends State<ScreenIntro> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 20.h),
+            // SizedBox(height: 60.h),
             // 슬라이드 영역
             Expanded(
               child: PageView.builder(
@@ -68,15 +70,15 @@ class _ScreenIntroSliderState extends State<ScreenIntro> {
                       shape: BoxShape.circle,
                       color:
                           _currentPage == index
-                              ? const Color(0xff0b5b42)
-                              : Colors.grey,
+                              ? scheme.primary
+                              : scheme.outline,
                     ),
                   ),
                 );
               }),
             ),
 
-            SizedBox(height: 36.h),
+            SizedBox(height: 60.h),
 
             // 버튼
             if (_currentPage == _slides.length - 1) ...[
@@ -95,9 +97,9 @@ class _ScreenIntroSliderState extends State<ScreenIntro> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 40.h),
+                padding: EdgeInsets.only(bottom: 20.h),
                 child: WideGreen(
-                  text: '다음으로',
+                  text: '학과 / 키워드 설정하기',
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -113,7 +115,7 @@ class _ScreenIntroSliderState extends State<ScreenIntro> {
                 children: [
                   SizedBox(height: 52.h),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 40.h),
+                    padding: EdgeInsets.only(bottom: 20.h),
                     child: WideGreen(text: '다음으로', onPressed: _onNext),
                   ),
                 ],

@@ -14,6 +14,8 @@ class ScreenMainKeyword extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final selectedKeyword = ref.watch(selectedKeywordProvider);
 
     Future<Widget> getNoticeByKeyword(Keyword keyword) async {
@@ -46,24 +48,17 @@ class ScreenMainKeyword extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Image.asset('assets/images/greenlogo_fix.png', width: 40.w),
-        ),
-        title: Text(
-          '키워드',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+          padding: EdgeInsets.all(15.0),
+          child: Image.asset(
+            'assets/images/green_logo_2025.png',
+            width: 28.w,
+            color: scheme.primary,
           ),
         ),
+        title: Text('키워드'),
         centerTitle: true,
       ),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           const BarKeywords(),
@@ -83,11 +78,8 @@ class ScreenMainKeyword extends ConsumerWidget {
                             ),
                             SizedBox(height: 16.h),
                             Text(
-                              '키워드 선택 후 키워드별 공지를 볼 수 있어요',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: Colors.grey,
-                              ),
+                              '키워드 선택 후 키워드별 공지를 볼 수 있어요.',
+                              style: TextStyle(fontSize: 14.sp),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 16.h),
@@ -106,7 +98,6 @@ class ScreenMainKeyword extends ConsumerWidget {
                                 '→ 키워드 선택하러 가기',
                                 style: TextStyle(
                                   fontSize: 20.sp,
-                                  color: Color(0xFF0B5B42),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
