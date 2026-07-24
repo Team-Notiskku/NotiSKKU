@@ -19,6 +19,32 @@ NotiSKKU는 `develop`을 개발 기준 브랜치로, `master`를 출시 기준 �
 - 출시 시점에는 검증된 `develop`을 `master`로 반영한다.
 - 출시 PR은 커밋 관계를 보존하기 위해 `Create a merge commit`을 사용한다.
 
+## GitHub 저장소 설정
+
+저장소 기본 브랜치는 `develop`으로 설정한다.
+
+```text
+default branch: develop
+```
+
+브랜치 역할은 다음과 같이 구분한다.
+
+```text
+develop: 개발 기준 브랜치
+master: Play Store 출시 기준 브랜치
+```
+
+Pull Request 머지 옵션은 다음 설정을 권장한다.
+
+| 설정 | 권장 값 | 이유 |
+| --- | --- | --- |
+| Allow merge commits | On | 출시 PR과 브랜치 동기화 PR에서 커밋 관계 보존 |
+| Allow squash merging | On | 일반 이슈 PR을 하나의 커밋으로 정리 |
+| Allow rebase merging | Off | 현재 플로우에서 사용하지 않으며 커밋 관계 혼선을 줄이기 위함 |
+| Automatically delete head branches | On | PR 머지 후 원격 작업 브랜치 자동 정리 |
+
+PR이 merge되면 원격 작업 브랜치는 자동 삭제될 수 있다. 필요한 작업 기록은 브랜치가 아니라 이슈, PR, 커밋 메시지에 남긴다.
+
 ## 작업 흐름
 
 ### 1. 이슈 생성
@@ -188,7 +214,29 @@ compare: master
 
 GitHub에서 `master`와 `develop`에 다음 보호 규칙을 설정하는 것을 권장한다.
 
-- direct push 금지
-- PR review 후 merge 허용
-- force push 금지
-- 필요 시 build/test check 통과 후 merge 허용
+| 항목 | `develop` | `master` |
+| --- | --- | --- |
+| Require a pull request before merging | On | On |
+| Require approvals | 1명 이상 권장 | 1명 이상 권장 |
+| Require conversation resolution before merging | On | On |
+| Require status checks before merging | CI 추가 전까지 Off | CI 추가 전까지 Off |
+| Require linear history | Off | Off |
+| Allow force pushes | Off | Off |
+| Allow deletions | Off | Off |
+
+`Require linear history`는 켜지 않는다. 출시 PR과 `master` 동기화 PR에서 `Create a merge commit`을 사용하기 때문이다.
+
+현재 저장소에 GitHub Actions 기반 CI가 없다면 `Require status checks before merging`은 켜지 않는다. CI를 추가한 뒤 build/test check가 안정화되면 필수 조건으로 전환한다.
+
+## 팀원 로컬 저장소 갱신
+
+default branch가 `develop`으로 변경된 뒤, 기존에 저장소를 clone한 팀원은 로컬에서 다음 명령을 한 번 실행한다.
+
+```bash
+git remote set-head origin -a
+git fetch --prune
+```
+
+`git remote set-head origin -a`는 로컬의 `origin/HEAD`가 GitHub의 default branch를 따라가도록 갱신한다.
+
+`git fetch --prune`은 원격에서 삭제된 작업 브랜치를 로컬 remote-tracking branch에서도 정리한다.
