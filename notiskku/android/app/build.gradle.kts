@@ -6,6 +6,10 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+val hasReleaseKeystore = keystorePropertiesFile.exists()
+
+fun requiredKeystoreProperty(name: String): String =
+    keystoreProperties.getProperty(name) ?: error("Missing $name in key.properties")
 
 plugins {
     id("com.android.application")
@@ -20,17 +24,21 @@ android {
     ndkVersion = "27.0.12077973"
 
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+        if (hasReleaseKeystore) {
+            create("release") {
+                keyAlias = requiredKeystoreProperty("keyAlias")
+                keyPassword = requiredKeystoreProperty("keyPassword")
+                storeFile = file(requiredKeystoreProperty("storeFile"))
+                storePassword = requiredKeystoreProperty("storePassword")
+            }
         }
     }
 
     buildTypes {
         getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             isShrinkResources = false
         }

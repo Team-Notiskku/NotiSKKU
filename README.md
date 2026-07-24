@@ -116,9 +116,9 @@ npm install -g firebase-tools
 flutterfire configure
 ```
 
-4. **환경 파일 설정**
-- `assets/credentials.json` 추가 
-- Firebase 설정 파일 추가 (`google-services.json`, `GoogleService-Info.plist`)
+4. **Firebase 설정 파일 확인**
+- Android: `notiskku/android/app/google-services.json`
+- iOS: `notiskku/ios/Runner/GoogleService-Info.plist`
 
 <br/>
 
